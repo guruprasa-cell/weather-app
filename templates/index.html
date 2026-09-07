@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #121212; color: #fff; text-align: center; margin: 0; padding: 20px; }
+        .container { max-width: 650px; margin: 0 auto; background: #1e1e1e; padding: 25px; border-radius: 12px; }
+        input[type="text"] { padding: 10px; width: 60%; font-size: 16px; border-radius: 6px; border: none; }
+        button { padding: 10px 18px; font-size: 16px; border-radius: 6px; border: none; background: #007bff; color: white; cursor: pointer; }
+        .current-box { background: #2a2a2a; padding: 15px; margin-top: 20px; border-radius: 8px; }
+        .forecast-grid { display: flex; gap: 10px; margin-top: 20px; justify-content: space-between; flex-wrap: wrap; }
+        .card { background: #2a2a2a; padding: 10px; border-radius: 8px; flex: 1; min-width: 100px; }
+        .error { color: #ff5555; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🌤️ Weather Dashboard</h2>
+        <form method="POST">
+            <input type="text" name="city" placeholder="Enter city name..." required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if current %}
+            <div class="current-box">
+                <h3>{{ location.name }}, {{ location.country }}</h3>
+                <p><strong>Condition:</strong> {{ current.condition }}</p>
+                <p><strong>Temperature:</strong> {{ current.temp }} °C</p>
+                <p><strong>Humidity:</strong> {{ current.humidity }}%</p>
+                <p><strong>Wind Speed:</strong> {{ current.wind }} km/h</p>
+            </div>
+
+            <h3 style="margin-top: 30px;">5-Day Forecast</h3>
+            <div class="forecast-grid">
+                {% for day in forecast %}
+                    <div class="card">
+                        <p><strong>{{ day.date }}</strong></p>
+                        <p>{{ day.condition }}</p>
+                        <p>Max: {{ day.max }}°C</p>
+                        <p>Min: {{ day.min }}°C</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
