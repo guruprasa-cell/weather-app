@@ -22,8 +22,8 @@ def index():
                 f"{location.get('name')}, {location.get('country', '')}"
             )
 
-            # 2. Weather API call
-            weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code"
+            # 2. Weather API call with specific current parameters
+            weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m"
             res = requests.get(weather_url).json()
 
             current = res.get("current", {})
@@ -33,7 +33,7 @@ def index():
                 "temperature": current.get("temperature_2m"),
                 "humidity": current.get("relative_humidity_2m"),
                 "wind_speed": current.get("wind_speed_10m"),
-                "condition": "Clear",  # Can map weather_code if needed
+                "condition": "Clear",
             }
 
     return render_template("index.html", weather=weather_data)
